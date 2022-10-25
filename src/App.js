@@ -1,19 +1,18 @@
 import './App.css';
-import { AppBar, Box, Toolbar, Typography } from '@material-ui/core';
+import Navbar from 'react-bootstrap/Navbar';
+import Container from 'react-bootstrap/Container';
 import File from "./components/File";
 
 function App() {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
-            Image Viewer
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <div>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand>Image Viewer</Navbar.Brand>
+        </Container>
+      </Navbar>
       <File />
-    </Box>
+    </div>
 
   );
 }
