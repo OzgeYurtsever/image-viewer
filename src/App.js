@@ -1,13 +1,20 @@
 import './App.css';
-import ViewPort from "./components/ViewPort";
+import { AppBar, Box, Toolbar, Typography } from '@material-ui/core';
+import File from "./components/File";
 
 function App() {
   return (
-    <div className="App">
-      <div id="dicomImage"> </div>
-      <div id="myCustomLoader"> </div>
-      <ViewPort />
-    </div>
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>
+            Image Viewer
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <File />
+    </Box>
+
   );
 }
 
