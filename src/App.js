@@ -1,11 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import ViewPort from "./components/ViewPort";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
+      <div id="dicomImage"> </div>
+      <div id="myCustomLoader"> </div>
+      <ViewPort />
     </div>
   );
 }
