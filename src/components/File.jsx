@@ -5,28 +5,29 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { BsDownload, BsFillFileEarmarkPlusFill, BsTrashFill } from "react-icons/bs";
+import { BsDownload, BsFileEarmarkPlus, BsTrash } from "react-icons/bs";
 import Navigation from './Navigation';
+import Slide from './Slide';
 
 
 const File = () => {
-    const [slides, setSlides] = useState([[], [], []]);
+    const [slides, setSlides] = useState([[], []]);
 
     return (
         <div>
-            <Navbar bg="light">
+            <Navbar style={{ background: '#E2E3E5' }}>
                 {/* <Container> */}
                 {/* <Row> */}
                 <Col sm={8}> </Col>
                 <Col sm={4}>
                     <ButtonGroup className="me-4">
                         <Button variant="secondary">
-                            <BsFillFileEarmarkPlusFill />
+                            <BsFileEarmarkPlus />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup className="me-4">
                         <Button variant="secondary">
-                            <BsTrashFill />
+                            <BsTrash />
                         </Button>
                     </ButtonGroup>
                     <ButtonGroup className="me-4">
@@ -39,11 +40,13 @@ const File = () => {
             <header className="App-header">
                 <Container className="h-100">
                     <Row className="h-100 align-items-center">
-                        <Col md={3} className="h-100">
-                            <Navigation noOfSlides={slides.length}/>
+                        <Col md={2} className="h-100">
+                        <Row className="h-100">
+                            <Navigation noOfSlides={slides.length} />
+                        </Row>
                         </Col>
-                        <Col md={9} className="h-100 align-items-center">
-                            <div> col 2 </div>
+                        <Col md={10} className="h-100 align-items-center">
+                            <Slide />
 
                         </Col>
                     </Row>
