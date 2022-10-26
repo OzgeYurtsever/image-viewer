@@ -32,10 +32,10 @@ export function getExampleImage(imageId) {
     const height = 256;
 
     function getPixelData() {
-        if (imageId === 'example://0') {
+        if (imageId === 'example://1') {
             console.log(' -----> image1PixelData');
             return image1PixelData;
-        } else if (imageId === 'example://1') {
+        } else if (imageId === 'example://2') {
             return image2PixelData;
         }
 
