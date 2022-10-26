@@ -15,9 +15,9 @@ const Slide = () => {
     const [imageIds, setImageIds] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
 
-    const renderTooltip = (props) => (
+    const renderTooltip = (props, opt) => (
         <Tooltip id="button-tooltip" {...props}>
-            Add image
+            {`Add image ${imageIds.length + 1}/2`}
         </Tooltip>
     );
 
@@ -32,17 +32,19 @@ const Slide = () => {
     return (
         <div id="slide-wrapper">
             <div id="slide">
-                <div id="toolbar">
-                    <OverlayTrigger
-                        placement="right"
-                        delay={{ show: 250, hide: 400 }}
-                        overlay={renderTooltip}
-                    >
-                        <Button id="add-img-btn" variant="secondary" onClick={() => setShow(true)}>
-                            <BsPlus />
-                        </Button>
-                    </OverlayTrigger>
-                </div>
+                {imageIds.length < 2 &&
+                    <div id="toolbar">
+                        <OverlayTrigger
+                            placement="right"
+                            delay={{ show: 250, hide: 400 }}
+                            overlay={renderTooltip}
+                        >
+                            <Button id="add-img-btn" variant="secondary" onClick={() => setShow(true)}>
+                                <BsPlus />
+                            </Button>
+                        </OverlayTrigger>
+                    </div>
+                }
                 <ViewPort imageIds={imageIds} />
             </div>
             <Modal size="sm" show={show} onHide={() => setShow(false)}>
@@ -51,13 +53,14 @@ const Slide = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        {imageList.map((imgId) => (
+                        {imageList.map((imgId, i) => (
                             <Form.Check
-                            type="radio"
-                            label={imgId}
-                            name="images"
-                            onClick={() => setSelectedImage(imgId)}
-                        />
+                                key={`checkimgId-${i + 1}`}
+                                type="radio"
+                                label={imgId}
+                                name="images"
+                                onClick={() => setSelectedImage(imgId)}
+                            />
                         ))}
                     </Form>
                 </Modal.Body>
