@@ -15,5 +15,25 @@
 #slide {
     /* background: red; */
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    height: 100%
+    height: 100%;
+    padding: 0.5rem;
+}
+
+#toolbar {
+    height: 6%;
+    margin: 0rem 1rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#add-img-btn {
+    padding: 0px 4px;
+}
+
+#viewPort-wrapper {
+    background: #eee;
+    /* background: red; */
+    box-shadow: 0 8px 8px -4px #6c757c;
+    height: 90%;
+    margin: 1rem;
 }

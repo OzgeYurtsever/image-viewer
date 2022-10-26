@@ -4,21 +4,28 @@ import * as cornerstone from 'cornerstone-core'
 import { getExampleImage } from '../utils/imageGenerator'
 
 const ViewPort = ({ imageId, nodeId }) => {
-    useEffect(() => {
-        const imageId = 'example://0';
+
+    const uploadPicture = imageId => {
         const element = document.getElementById('dicomImage');
         cornerstone.enable(element);
         const imageData = getExampleImage(imageId).promise;
         imageData.then(function (image) {
             cornerstone.displayImage(element, image);
         });
-
+    }
+    useEffect(() => {
+        // const element = document.getElementById('dicomImage1');
+        // cornerstone.enable(element);
+        // const imageData = getExampleImage('example://0').promise;
+        // imageData.then(function (image) {
+        //     cornerstone.displayImage(element, image);
+        // });
     }, []);
 
-
-
     return (
-        <div>
+        <div id="viewPort-wrapper">
+            <div id="dicomImage1"> </div>
+            <div id="dicomImage2"> </div>
         </div>
     );
 };

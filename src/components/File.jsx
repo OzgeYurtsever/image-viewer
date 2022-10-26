@@ -11,13 +11,17 @@ import Slide from './Slide';
 
 
 const File = () => {
-    const [slides, setSlides] = useState([[], []]);
+    const [slides, setSlides] = useState([[]]);
 
     return (
         <div>
-            <Navbar style={{ background: '#E2E3E5' }}>
+            {/* <Navbar style={{ background: '#E2E3E5' }}> */}
+            <Navbar bg="dark" variant="dark">
                 {/* <Container> */}
                 {/* <Row> */}
+                <Container>
+                    <Navbar.Brand>Image Viewer</Navbar.Brand>
+                </Container>
                 <Col sm={8}> </Col>
                 <Col sm={4}>
                     <ButtonGroup className="me-4">
@@ -41,9 +45,9 @@ const File = () => {
                 <Container className="h-100">
                     <Row className="h-100 align-items-center">
                         <Col md={2} className="h-100">
-                        <Row className="h-100">
-                            <Navigation noOfSlides={slides.length} />
-                        </Row>
+                            <Row className="h-100">
+                                <Navigation noOfSlides={slides.length} />
+                            </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
                             <Slide />
