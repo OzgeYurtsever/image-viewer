@@ -22,7 +22,7 @@ const File = () => {
                 <Container>
                     <Navbar.Brand>Image Viewer</Navbar.Brand>
                 </Container>
-                <Col sm={8}> </Col>
+                <Col sm={6}> </Col>
                 <Col sm={4}>
                     <ButtonGroup className="me-4">
                         <Button variant="secondary">

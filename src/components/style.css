@@ -3,13 +3,18 @@
     border-color: #41464b;
     border-width: 1px; */
     height: inherit;
-    width: auto;
+    /* width: auto; */
     /* margin-top: 1rem; */
     padding: 1rem 1rem 5rem 1rem;
     /* margin-bottom: 5rem; */
     /* background: yellow; */
     /* background: #eee;
     box-shadow: 0 8px 8px -4px lightblue; */
+}
+
+.div-center {
+    display: flex;
+    justify-content: flex-start;
 }
 
 #slide {
