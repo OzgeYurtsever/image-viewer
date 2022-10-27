@@ -31,8 +31,7 @@ const File = () => {
         setSlides(clonedSlides);
         setCurrentSlide(currentSlide + 1);
     }
-
-
+ 
     return (
         <div>
             {/* <Navbar style={{ background: '#E2E3E5' }}> */}
@@ -87,7 +86,7 @@ const File = () => {
                     <Row className="h-100 align-items-center">
                         <Col md={2} className="h-100">
                             <Row className="h-100">
-                                <Navigation noOfSlides={slides.length} />
+                                <Navigation noOfSlides={slides.length} updateCurrent={(i) => setCurrentSlide(i)}/>
                             </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
