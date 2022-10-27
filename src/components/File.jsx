@@ -24,6 +24,14 @@ const File = () => {
         setSlides(clonedSlides);
     }
 
+    const addSlide = () => {
+        const clonedSlides = _.cloneDeep(slides);
+        if (slides.length - 1 === currentSlide) clonedSlides.push([]);
+        else clonedSlides.splice(currentSlide + 1, 0, []);
+        setSlides(clonedSlides);
+        setCurrentSlide(currentSlide + 1);
+    }
+
 
     return (
         <div>
@@ -44,7 +52,7 @@ const File = () => {
                             }
                         >
                             <Button variant="secondary">
-                                <BsFileEarmarkPlus />
+                                <BsFileEarmarkPlus onClick={addSlide} />
                             </Button>
                         </OverlayTrigger>
                     </ButtonGroup>
