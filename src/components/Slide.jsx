@@ -16,7 +16,7 @@ const Slide = ({ getImageId }) => {
     const [imageIds, setImageIds] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
 
-    const renderTooltip = (props, opt) => (
+    const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
             {`Add image ${imageIds.length + 1}/${IMG_LIMIT}`}
         </Tooltip>

@@ -4,6 +4,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
+import Tooltip from 'react-bootstrap/Tooltip';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { BsDownload, BsFileEarmarkPlus, BsTrash } from "react-icons/bs";
@@ -14,6 +16,7 @@ import Slide from './Slide';
 const File = () => {
     const [slides, setSlides] = useState([[]]);
     const [currentSlide, setCurrentSlide] = useState(0);
+
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
@@ -34,19 +37,40 @@ const File = () => {
                 <Col sm={6}> </Col>
                 <Col sm={4}>
                     <ButtonGroup className="me-4">
-                        <Button variant="secondary">
-                            <BsFileEarmarkPlus />
-                        </Button>
+                        <OverlayTrigger
+                            placement={'bottom'}
+                            overlay={
+                                <Tooltip> Add slide </Tooltip>
+                            }
+                        >
+                            <Button variant="secondary">
+                                <BsFileEarmarkPlus />
+                            </Button>
+                        </OverlayTrigger>
                     </ButtonGroup>
                     <ButtonGroup className="me-4">
-                        <Button variant="secondary">
-                            <BsTrash />
-                        </Button>
+                        <OverlayTrigger
+                            placement={'bottom'}
+                            overlay={
+                                <Tooltip> Delete slide </Tooltip>
+                            }
+                        >
+                            <Button variant="secondary">
+                                <BsTrash />
+                            </Button>
+                        </OverlayTrigger>
                     </ButtonGroup>
                     <ButtonGroup className="me-4">
-                        <Button variant="secondary">
-                            <BsDownload />
-                        </Button>
+                        <OverlayTrigger
+                            placement={'bottom'}
+                            overlay={
+                                <Tooltip> Download slides </Tooltip>
+                            }
+                        >
+                            <Button variant="secondary">
+                                <BsDownload />
+                            </Button>
+                        </OverlayTrigger>
                     </ButtonGroup>
                 </Col>
             </Navbar>
@@ -59,7 +83,7 @@ const File = () => {
                             </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
-                            <Slide getImageId={getImageId}/>
+                            <Slide getImageId={getImageId} />
 
                         </Col>
                     </Row>
