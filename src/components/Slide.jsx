@@ -6,18 +6,19 @@ import Form from 'react-bootstrap/Form'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from "react-icons/bs";
 import ViewPort from './ViewPort';
+import { IMG_LIMIT } from '../utils/constants'
 import './style.css';
 
 const imageList = ['example://1', 'example://2'];
 
-const Slide = () => {
+const Slide = ({ getImageId }) => {
     const [show, setShow] = useState(false);
     const [imageIds, setImageIds] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
 
     const renderTooltip = (props, opt) => (
         <Tooltip id="button-tooltip" {...props}>
-            {`Add image ${imageIds.length + 1}/2`}
+            {`Add image ${imageIds.length + 1}/${IMG_LIMIT}`}
         </Tooltip>
     );
 
@@ -25,6 +26,7 @@ const Slide = () => {
         const imgIds = [...imageIds];
         imgIds.push(selectedImage);
         setImageIds(imgIds);
+        getImageId(imgIds);
         setSelectedImage('');
         setShow(false);
     }
@@ -32,7 +34,7 @@ const Slide = () => {
     return (
         <div id="slide-wrapper">
             <div id="slide">
-                {imageIds.length < 2 &&
+                {imageIds.length < IMG_LIMIT &&
                     <div id="toolbar">
                         <OverlayTrigger
                             placement="right"

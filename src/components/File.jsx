@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import _ from 'lodash';
 import Navbar from 'react-bootstrap/Navbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
@@ -12,6 +13,14 @@ import Slide from './Slide';
 
 const File = () => {
     const [slides, setSlides] = useState([[]]);
+    const [currentSlide, setCurrentSlide] = useState(0);
+
+    const getImageId = (ids) => {
+        const clonedSlides = _.cloneDeep(slides);
+        clonedSlides[currentSlide] = ids;
+        setSlides(clonedSlides);
+    }
+
 
     return (
         <div>
@@ -50,7 +59,7 @@ const File = () => {
                             </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
-                            <Slide />
+                            <Slide getImageId={getImageId}/>
 
                         </Col>
                     </Row>
