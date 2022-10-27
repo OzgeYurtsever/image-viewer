@@ -11,9 +11,8 @@ import './style.css';
 
 const imageList = ['example://1', 'example://2'];
 
-const Slide = ({ getImageId }) => {
+const Slide = ({ getImageId, imageIds, currentSlide }) => {
     const [show, setShow] = useState(false);
-    const [imageIds, setImageIds] = useState([]);
     const [selectedImage, setSelectedImage] = useState('');
 
     const renderTooltip = (props) => (
@@ -25,7 +24,6 @@ const Slide = ({ getImageId }) => {
     const selectImage = () => {
         const imgIds = [...imageIds];
         imgIds.push(selectedImage);
-        setImageIds(imgIds);
         getImageId(imgIds);
         setSelectedImage('');
         setShow(false);
@@ -34,20 +32,18 @@ const Slide = ({ getImageId }) => {
     return (
         <div id="slide-wrapper">
             <div id="slide">
-                {imageIds.length < IMG_LIMIT &&
-                    <div id="toolbar">
-                        <OverlayTrigger
-                            placement="right"
-                            delay={{ show: 250, hide: 400 }}
-                            overlay={renderTooltip}
-                        >
-                            <Button id="add-img-btn" variant="secondary" onClick={() => setShow(true)}>
-                                <BsPlus />
-                            </Button>
-                        </OverlayTrigger>
-                    </div>
-                }
-                <ViewPort imageIds={imageIds} />
+                <div id="toolbar">
+                    <OverlayTrigger
+                        placement="right"
+                        delay={{ show: 250, hide: 400 }}
+                        overlay={renderTooltip}
+                    >
+                        <Button id="add-img-btn" variant="secondary" onClick={() => setShow(true)}>
+                            <BsPlus />
+                        </Button>
+                    </OverlayTrigger>
+                </div>
+                <ViewPort imageIds={imageIds} currentSlide={currentSlide}/>
             </div>
             <Modal size="sm" show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>

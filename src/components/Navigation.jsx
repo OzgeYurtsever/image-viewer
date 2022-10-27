@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
 
 const Navigation = ({ noOfSlides, updateCurrent }) => {
@@ -13,7 +11,6 @@ const Navigation = ({ noOfSlides, updateCurrent }) => {
             list.push(<ListGroup.Item action onClick={() => updateCurrent(i)} variant="secondary" key={`Slide-${i + 1}`}> {`Slide ${i + 1}`} </ListGroup.Item>)
         setNavList(list);
     }, [noOfSlides]);
-
     return (
 
         <ListGroup>

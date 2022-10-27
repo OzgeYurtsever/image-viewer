@@ -90,7 +90,7 @@ const File = () => {
                             </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
-                            <Slide getImageId={getImageId} />
+                            <Slide getImageId={getImageId} imageIds={slides[currentSlide]} currentSlide={currentSlide}/>
 
                         </Col>
                     </Row>

@@ -33,7 +33,6 @@ export function getExampleImage(imageId) {
 
     function getPixelData() {
         if (imageId === 'example://1') {
-            console.log(' -----> image1PixelData');
             return image1PixelData;
         } else if (imageId === 'example://2') {
             return image2PixelData;
