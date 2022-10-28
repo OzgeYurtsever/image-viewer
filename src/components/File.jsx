@@ -32,7 +32,6 @@ const File = () => {
     }
 
     const getDataURLs = (urls) => {
-        console.log(" ---> urls", urls)
         let dataURLs = localStorage.getItem('dataURLs');
         dataURLs = JSON.parse(dataURLs);
         dataURLs[currentSlide] = urls;
@@ -59,23 +58,17 @@ const File = () => {
 
     const downloadSlides = () => {
         let pptx = new PptxGenJS();
-        // iterate over the slides 
-        let urls = localStorage.getItem('dataURLs');
-        urls = JSON.parse(urls);
-        console.log(urls[0][0]);
-        const query = `#dicomImage00 canvas`;
-        const canvas = document.querySelector(query);
-        let data1 = canvas.toDataURL();
-
         slides.forEach((slide, index) => {
             const pptSlide = pptx.addNewSlide();
             pptSlide.background = { color: "de4509" };
             slide.forEach((image, i) => {
-                // pptSlide.addImage({ data: urls[index][i] });
-                pptSlide.addImage({ data: data1 });
+                const query = `#dicomImage${index}${i} canvas`;
+                const canvas = document.querySelector(query);
+                let data = canvas.toDataURL();
+                pptSlide.addImage({ data });
             });
         });
-        pptx.writeFile({ fileName: 'Browser-PowerPoint-Demo.pptx' });
+        pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
     }
 
     return (
