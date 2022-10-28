@@ -47,6 +47,16 @@ const File = () => {
         setCurrentSlide(currentSlide + 1);
     }
 
+    const deleteSlide = () => {
+        if (slides.length > 1) {
+            const clonedSlides = _.cloneDeep(slides);
+            if (slides.length - 1 === currentSlide) clonedSlides.pop();
+            else clonedSlides.splice(currentSlide, 1);
+            setSlides(clonedSlides);
+            if (currentSlide > 0 )setCurrentSlide(currentSlide - 1); 
+        }
+    }
+
     const downloadSlides = () => {
         let pptx = new PptxGenJS();
         // iterate over the slides 
@@ -99,7 +109,7 @@ const File = () => {
                             }
                         >
                             <Button variant="secondary">
-                                <BsTrash />
+                                <BsTrash onClick={deleteSlide} />
                             </Button>
                         </OverlayTrigger>
                     </ButtonGroup>
