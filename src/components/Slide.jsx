@@ -23,13 +23,13 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getMeasurements, 
 
 
     const openModal = () => {
-        if (imageIds.length < IMG_LIMIT) setShowImgList(true)
+        if (imageIds[currentSlide].length < IMG_LIMIT) setShowImgList(true)
         else setShowLimitList(true);
     }
 
     const selectImage = (i) => {
         if (selectedImage) {
-            const imgIds = [...imageIds];
+            const imgIds = [...imageIds[currentSlide]];
             if (typeof i === 'number') {
                 console.log("should be here, ", i);
                 imgIds[i] = selectedImage; 

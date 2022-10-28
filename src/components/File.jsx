@@ -139,7 +139,7 @@ const File = () => {
                             <Slide 
                                 addSlide={addSlide} 
                                 getImageId={getImageId} 
-                                imageIds={slides[currentSlide]} 
+                                imageIds={slides} 
                                 currentSlide={currentSlide} 
                                 getMeasurements={getMeasurements} 
                                 getDataURLs={getDataURLs} 
