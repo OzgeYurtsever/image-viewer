@@ -58,14 +58,28 @@ const File = () => {
 
     const downloadSlides = () => {
         let pptx = new PptxGenJS();
+        const maxY = 404;
+        const maxX = 720;
+        const margin = 2;
+        const singleImage = { x: 0, y: 0, w: '100%', h: '100%' };
+        const doubleImage1 = { x: 0, y: 0, w: '50%', h: '100%' };
+        const doubleImage2 = { x: '51%', y: 0, w: '49%', h: '100%' };
+
         slides.forEach((slide, index) => {
             const pptSlide = pptx.addNewSlide();
-            pptSlide.background = { color: "de4509" };
+            pptSlide.background = { color: "e2e3e5" };
+            const size = slide.length;
             slide.forEach((image, i) => {
                 const query = `#dicomImage${index}${i} canvas`;
                 const canvas = document.querySelector(query);
                 let data = canvas.toDataURL();
-                pptSlide.addImage({ data });
+                let coordinates = {};
+                if (size === 1) coordinates = singleImage;
+                else {
+                    coordinates = (i === 0) ? doubleImage1 : doubleImage2;
+                }
+                
+                pptSlide.addImage({ data, ...coordinates });
             });
         });
         pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
