@@ -5,11 +5,14 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from "react-icons/bs";
 import ViewPort from './ViewPort';
 import ImageListModal from './ImageListModal';
+import ImageLimitModal from './ImageLimitModal';
+
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ getImageId, imageIds, currentSlide, getMeasurements, getDataURLs }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getMeasurements, getDataURLs }) => {
     const [showImgList, setShowImgList] = useState(false);
+    const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
     const renderTooltip = (props) => (
@@ -18,12 +21,27 @@ const Slide = ({ getImageId, imageIds, currentSlide, getMeasurements, getDataURL
         </Tooltip>
     );
 
-    const selectImage = () => {
-        const imgIds = [...imageIds];
-        imgIds.push(selectedImage);
-        getImageId(imgIds);
-        setSelectedImage('');
-        setShowImgList(false);
+
+    const openModal = () => {
+        if (imageIds.length < IMG_LIMIT) setShowImgList(true)
+        else setShowLimitList(true);
+    }
+
+    const selectImage = (i) => {
+        if (selectedImage) {
+            const imgIds = [...imageIds];
+            if (typeof i === 'number') {
+                console.log("should be here, ", i);
+                imgIds[i] = selectedImage; 
+            }
+            else if (imgIds.length < IMG_LIMIT) {
+                imgIds.push(selectedImage)
+            };
+            console.log(imgIds);
+            getImageId(imgIds);
+            setSelectedImage('');
+            setShowImgList(false);
+        }
     }
 
     return (
@@ -35,7 +53,7 @@ const Slide = ({ getImageId, imageIds, currentSlide, getMeasurements, getDataURL
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
                     >
-                        <Button id="add-img-btn" variant="secondary" onClick={() => setShowImgList(true)}>
+                        <Button id="add-img-btn" variant="secondary" onClick={openModal}>
                             <BsPlus />
                         </Button>
                     </OverlayTrigger>
@@ -47,6 +65,14 @@ const Slide = ({ getImageId, imageIds, currentSlide, getMeasurements, getDataURL
                 onHide={() => setShowImgList(false)}
                 setSelectedImage={(id) => setSelectedImage(id)}
                 selectImage={selectImage}
+            />
+            <ImageLimitModal 
+                show={showLimitList}
+                onHide={() => setShowLimitList(false)}
+                showModal={() => setShowImgList(true)}
+                // setSelectedImage={(id) => setSelectedImage(id)}
+                selectImage={selectImage}
+                addSlide={addSlide}
             />
         </div>
     );
