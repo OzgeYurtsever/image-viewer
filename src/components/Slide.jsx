@@ -50,8 +50,9 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
         <div id="slide-wrapper">
             <div id="slide">
                 <div id="toolbar">
+                <div style={{'width':'90%'}}> {`Slide ${currentSlide + 1}`}</div>
                     <OverlayTrigger
-                        placement="right"
+                        placement="left"
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
                     >
