@@ -19,12 +19,6 @@ const File = () => {
     const [dataURLs, setDataURLs] = useState([[]]);
     const [currentSlide, setCurrentSlide] = useState(0);
 
-
-    useEffect(() => {
-        localStorage.setItem('dataURLs', JSON.stringify([[]]));
-        localStorage.setItem('measurements', JSON.stringify([[]]));
-
-    });
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
         clonedSlides[currentSlide] = ids;
@@ -56,11 +50,19 @@ const File = () => {
     const downloadSlides = () => {
         let pptx = new PptxGenJS();
         // iterate over the slides 
+        let urls = localStorage.getItem('dataURLs');
+        urls = JSON.parse(urls);
+        console.log(urls[0][0]);
+        const query = `#dicomImage00 canvas`;
+        const canvas = document.querySelector(query);
+        let data1 = canvas.toDataURL();
+
         slides.forEach((slide, index) => {
             const pptSlide = pptx.addNewSlide();
             pptSlide.background = { color: "de4509" };
             slide.forEach((image, i) => {
-                pptSlide.addImage({ data: dataURLs[index][i] });
+                // pptSlide.addImage({ data: urls[index][i] });
+                pptSlide.addImage({ data: data1 });
             });
         });
         pptx.writeFile({ fileName: 'Browser-PowerPoint-Demo.pptx' });
