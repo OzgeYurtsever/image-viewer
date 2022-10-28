@@ -9,8 +9,11 @@ const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
     useEffect(() => {
         const box = document.getElementById('viewPort-wrapper');
         const domRect = box.getBoundingClientRect();
-        const wrapperHeight = domRect.height;
-        const height = imageIds[currentSlide].length ? wrapperHeight / imageIds[currentSlide].length : domRect.height;
+        // const wrapperHeight = domRect.height;
+        const wrapperWidth = domRect.width;
+        // const height = imageIds[currentSlide].length ? wrapperHeight / imageIds[currentSlide].length : domRect.height;
+        const width = imageIds[currentSlide].length ? wrapperWidth / imageIds[currentSlide].length : domRect.width;
+
         let measurements = localStorage.getItem('measurements');
         measurements = JSON.parse(measurements);
         let urls = localStorage.getItem('dataURLs');
@@ -22,7 +25,8 @@ const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
                 const imageData = getExampleImage(imageIds[currentSlide][i]).promise;
                 const image = await imageData;
                 cornerstone.displayImage(element, image);
-                element.style.height = height + 'px';
+                // element.style.height = height + 'px';
+                element.style.width = width + 'px';
                 cornerstone.resize(element);
 
                 const measurement = element.getBoundingClientRect();
@@ -45,9 +49,9 @@ const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
     const renderDivs = () => {
         const divs = [];
         for (let i = 0; i < imageIds.length; i++) {
-            const display = currentSlide !== i ? {'display' : 'none'} : null;
+            const display = currentSlide !== i ? {'display' : 'none'} : {};
             for (let k = 0; k < IMG_LIMIT; k++) {
-                divs.push((<div key={`img${i}-${k}`} id={`dicomImage${i}${k}`} style={display}> </div>));
+                divs.push((<div key={`img${i}-${k}`} id={`dicomImage${i}${k}`} style={{...display, 'margin': '2px'}}> </div>));
             }
         }
         return divs;
