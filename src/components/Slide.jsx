@@ -14,6 +14,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
+    const [replaceImg, setReplaceImg] = useState(null);
 
     const renderTooltip = (props) => (
         <Tooltip id="button-tooltip" {...props}>
@@ -27,19 +28,20 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
         else setShowLimitList(true);
     }
 
-    const selectImage = (i) => {
+    const selectImage = () => {
         if (selectedImage) {
             const imgIds = [...imageIds[currentSlide]];
-            if (typeof i === 'number') {
-                console.log("should be here, ", i);
-                imgIds[i] = selectedImage; 
+            if (replaceImg !== null) {
+                const index = parseInt(replaceImg)
+                imgIds[index] = selectedImage; 
+                setShowLimitList(false);
             }
             else if (imgIds.length < IMG_LIMIT) {
                 imgIds.push(selectedImage)
             };
-            console.log(imgIds);
             getImageId(imgIds);
             setSelectedImage('');
+            setReplaceImg(null);
             setShowImgList(false);
         }
     }
@@ -70,9 +72,8 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
                 show={showLimitList}
                 onHide={() => setShowLimitList(false)}
                 showModal={() => setShowImgList(true)}
-                // setSelectedImage={(id) => setSelectedImage(id)}
-                selectImage={selectImage}
                 addSlide={addSlide}
+                setReplaceImg={setReplaceImg}
             />
         </div>
     );

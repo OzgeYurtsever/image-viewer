@@ -6,13 +6,7 @@ import { IMG_LIMIT, LIMIT_MAP } from '../utils/constants';
 
 const imageList = ['example://1', 'example://2'];
 
-const ImageListModal = ({ addSlide, show, onHide, showModal, setSelectedImage, selectImage }) => {
-    const [slideIndex, setSlideIndex] = useState(null);
-
-    const replaceSelected = (i) => {
-        setSlideIndex(i);
-        showModal();
-    }
+const ImageLimitModal = ({ addSlide, show, onHide, showModal, setReplaceImg }) => {
 
     const formOptions = () => {
         const nodes = [];
@@ -23,7 +17,8 @@ const ImageListModal = ({ addSlide, show, onHide, showModal, setSelectedImage, s
                         type="radio"
                         label={`Replace image ${i + 1}`}
                         name="images"
-                        onClick={showModal}
+                        value={i}
+                        onClick={(e) => { setReplaceImg(e.target.value); showModal()}}
                     />
             )
         }
@@ -50,11 +45,7 @@ const ImageListModal = ({ addSlide, show, onHide, showModal, setSelectedImage, s
                {formOptions()}
             </Form>
         </Modal.Body>
-        <Modal.Footer>
-            <Button onClick={onHide} variant="secondary">Cancel</Button>
-            <Button onClick={() => {selectImage(slideIndex); onHide()}} variant="primary">Done</Button>
-        </Modal.Footer>
     </Modal>)
 }
 
-export default ImageListModal;
+export default ImageLimitModal;
