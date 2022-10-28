@@ -11,7 +11,7 @@ import './style.css';
 
 const imageList = ['example://1', 'example://2'];
 
-const Slide = ({ getImageId, imageIds, currentSlide }) => {
+const Slide = ({ getImageId, imageIds, currentSlide, getMeasurements, getDataURLs }) => {
     const [show, setShow] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
 
@@ -43,7 +43,7 @@ const Slide = ({ getImageId, imageIds, currentSlide }) => {
                         </Button>
                     </OverlayTrigger>
                 </div>
-                <ViewPort imageIds={imageIds} currentSlide={currentSlide}/>
+                <ViewPort imageIds={imageIds} currentSlide={currentSlide} getMeasurements={getMeasurements} getDataURLs={getDataURLs} />
             </div>
             <Modal size="sm" show={show} onHide={() => setShow(false)}>
                 <Modal.Header closeButton>

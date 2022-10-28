@@ -27,6 +27,7 @@ function getPixelData(base64PixelData) {
 var image1PixelData = getPixelData(image108Base64);
 var image2PixelData = getPixelData(image109Base64);
 
+
 export function getExampleImage(imageId) {
     const width = 256;
     const height = 256;
