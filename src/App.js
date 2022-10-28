@@ -4,8 +4,6 @@ import Container from 'react-bootstrap/Container';
 import File from "./components/File";
 
 function App() {
-  localStorage.setItem('dataURLs', JSON.stringify([[]]));
-  localStorage.setItem('measurements', JSON.stringify([[]]));
   return (
     <div>
       <File />

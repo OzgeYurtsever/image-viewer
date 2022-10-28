@@ -10,7 +10,7 @@ import ImageLimitModal from './ImageLimitModal';
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getMeasurements, getDataURLs }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -58,7 +58,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getMeasurements, 
                         </Button>
                     </OverlayTrigger>
                 </div>
-                <ViewPort imageIds={imageIds} currentSlide={currentSlide} getMeasurements={getMeasurements} getDataURLs={getDataURLs} />
+                <ViewPort imageIds={imageIds} currentSlide={currentSlide} />
             </div>
             <ImageListModal 
                 show={showImgList}

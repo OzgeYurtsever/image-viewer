@@ -15,27 +15,12 @@ import Slide from './Slide';
 
 const File = () => {
     const [slides, setSlides] = useState([[]]);
-    const [measurements, setMeasurements] = useState([[]]);
-    const [dataURLs, setDataURLs] = useState([[]]);
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
         clonedSlides[currentSlide] = ids;
         setSlides(clonedSlides);
-    }
-
-    const getMeasurements = (data) => {
-        const clonedMeasurements = _.cloneDeep(measurements);
-        clonedMeasurements[currentSlide] = data;
-        setMeasurements(clonedMeasurements);
-    }
-
-    const getDataURLs = (urls) => {
-        let dataURLs = localStorage.getItem('dataURLs');
-        dataURLs = JSON.parse(dataURLs);
-        dataURLs[currentSlide] = urls;
-        localStorage.setItem('dataURLs', JSON.stringify(dataURLs));
     }
 
     const addSlide = () => {
@@ -148,8 +133,6 @@ const File = () => {
                                 getImageId={getImageId} 
                                 imageIds={slides} 
                                 currentSlide={currentSlide} 
-                                getMeasurements={getMeasurements} 
-                                getDataURLs={getDataURLs} 
                             />
                         </Col>
                     </Row>

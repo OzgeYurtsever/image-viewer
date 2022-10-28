@@ -5,7 +5,7 @@ import { getExampleImage } from '../utils/imageGenerator';
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
+const ViewPort = ({ imageIds, currentSlide}) => {
     useEffect(() => {
         const box = document.getElementById('viewPort-wrapper');
         const domRect = box.getBoundingClientRect();
@@ -14,10 +14,6 @@ const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
         // const height = imageIds[currentSlide].length ? wrapperHeight / imageIds[currentSlide].length : domRect.height;
         const width = imageIds[currentSlide].length ? wrapperWidth / imageIds[currentSlide].length : domRect.width;
 
-        let measurements = localStorage.getItem('measurements');
-        measurements = JSON.parse(measurements);
-        let urls = localStorage.getItem('dataURLs');
-        urls = JSON.parse(urls);
         const displayImages = async () => {
             for (let i = 0; i < imageIds[currentSlide].length; i++) {
                 const element = document.getElementById(`dicomImage${currentSlide}${i}`);
@@ -25,23 +21,12 @@ const ViewPort = ({ imageIds, currentSlide, getMeasurements, getDataURLs }) => {
                 const imageData = getExampleImage(imageIds[currentSlide][i]).promise;
                 const image = await imageData;
                 cornerstone.displayImage(element, image);
-                // element.style.height = height + 'px';
                 element.style.width = width + 'px';
                 cornerstone.resize(element);
-
-                const measurement = element.getBoundingClientRect();
-                measurements[currentSlide].push(measurement);
-
-                const query = `#dicomImage${currentSlide}${i} canvas`;
-                const canvas = document.querySelector(query);
-                let data = canvas.toDataURL();
-                urls[currentSlide].push(data);
             }
         }
-
+        
         displayImages().then(() => {
-            localStorage.setItem('measurements', JSON.stringify(measurements));
-            localStorage.setItem('dataURLs', JSON.stringify(urls));
         }).catch((err) => console.error(err));
     }, [imageIds, currentSlide])
 
