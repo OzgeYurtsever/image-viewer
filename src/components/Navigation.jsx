@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import ListGroup from 'react-bootstrap/ListGroup';
+// import ListGroup from 'react-bootstrap/ListGroup';
 
 
-const Navigation = ({ noOfSlides, updateCurrent }) => {
+const Navigation = ({ currentSlide, noOfSlides, updateCurrent }) => {
     const [navList, setNavList] = useState([]);
 
     useEffect(() => {
         const list = [];
         for (let i = 0; i < noOfSlides; i++)
-            list.push(<ListGroup.Item action onClick={() => updateCurrent(i)} variant="secondary" key={`Slide-${i + 1}`}> {`Slide ${i + 1}`} </ListGroup.Item>)
+            list.push(<div action className={i === currentSlide? "slide-nav selected" : "slide-nav"} onClick={() => updateCurrent(i)} key={`Slide-${i + 1}`}> {`Slide ${i + 1}`} </div>)
         setNavList(list);
-    }, [noOfSlides]);
+    }, [noOfSlides, currentSlide]);
     return (
-
-        <ListGroup>
+        <div className="wrapper">
             {navList}
-        </ListGroup>
-
-
-
+        </div>
     );
 
 }
