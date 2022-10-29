@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
@@ -21,7 +21,6 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
             {`Add image`}
         </Tooltip>
     );
-
 
     const openModal = () => {
         if (imageIds[currentSlide].length < IMG_LIMIT) setShowImgList(true)
@@ -47,7 +46,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
     }
 
     return (
-        <div id="slide-wrapper">
+        <div className="wrapper">
             <div id="slide">
                 <div id="toolbar">
                 <div style={{'width':'90%'}}> {`Slide ${currentSlide + 1}`}</div>

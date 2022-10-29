@@ -6,6 +6,7 @@ import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
 const ViewPort = ({ imageIds, currentSlide}) => {
+
     useEffect(() => {
         const box = document.getElementById('viewPort-wrapper');
         const domRect = box.getBoundingClientRect();
@@ -23,12 +24,13 @@ const ViewPort = ({ imageIds, currentSlide}) => {
                 cornerstone.displayImage(element, image);
                 element.style.width = width + 'px';
                 cornerstone.resize(element);
+                
             }
         }
         
         displayImages().then(() => {
         }).catch((err) => console.error(err));
-    }, [imageIds, currentSlide])
+    }, [imageIds.length, imageIds, currentSlide])
 
 
     const renderDivs = () => {

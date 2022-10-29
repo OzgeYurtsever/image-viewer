@@ -12,6 +12,7 @@ import Col from 'react-bootstrap/Col';
 import { BsDownload, BsFileEarmarkPlus, BsTrash } from "react-icons/bs";
 import Navigation from './Navigation';
 import Slide from './Slide';
+import { IMG_LIMIT } from '../utils/constants';
 
 const File = () => {
     const [slides, setSlides] = useState([[]]);
@@ -32,13 +33,31 @@ const File = () => {
     }
 
     const deleteSlide = () => {
+        const temp = currentSlide;
         if (slides.length > 1) {
             const clonedSlides = _.cloneDeep(slides);
             if (slides.length - 1 === currentSlide) clonedSlides.pop();
             else clonedSlides.splice(currentSlide, 1);
             setSlides(clonedSlides);
-            if (currentSlide > 0 )setCurrentSlide(currentSlide - 1); 
+            if (currentSlide > 0) setCurrentSlide(currentSlide - 1); 
         }
+
+        // clear viewports
+        for (let i = temp; i < slides.length - 1; i++) {
+            const query1 = `#dicomImage${i}0 canvas`;
+            // const query1 = `#dicomImage${i}0`;
+
+            const canvas1 = document.querySelector(query1);
+    
+            const query2 = `#dicomImage${i}1 canvas`;
+            // const query2 = `#dicomImage${i}1`;
+
+            const canvas2 = document.querySelector(query2);
+    
+            canvas1?.remove();
+            canvas2?.remove();
+        }
+
     }
 
     const downloadSlides = () => {
@@ -72,10 +91,7 @@ const File = () => {
 
     return (
         <div>
-            {/* <Navbar style={{ background: '#E2E3E5' }}> */}
             <Navbar bg="dark" variant="dark">
-                {/* <Container> */}
-                {/* <Row> */}
                 <Container>
                     <Navbar.Brand>Image Viewer</Navbar.Brand>
                 </Container>
@@ -124,7 +140,7 @@ const File = () => {
                     <Row className="h-100 align-items-center">
                         <Col md={2} className="h-100">
                             <Row className="h-100">
-                                <Navigation noOfSlides={slides.length} updateCurrent={(i) => setCurrentSlide(i)} />
+                                <Navigation currentSlide={currentSlide} noOfSlides={slides.length} updateCurrent={(i) => setCurrentSlide(i)} />
                             </Row>
                         </Col>
                         <Col md={10} className="h-100 align-items-center">
