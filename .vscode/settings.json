@@ -1,0 +1,13 @@
+{
+    "eslint.alwaysShowStatus": true,
+    "eslint.autoFixOnSave": true,
+    // Enable per-language
+    "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "prettier.singleQuote": true,
+  "window.zoomLevel": 1,
+  "emmet.includeLanguages": {
+    "javascript":"javascriptreact"
+  },
+}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import PptxGenJS from "pptxgenjs";
+import PptxGenJS from 'pptxgenjs';
 import Navbar from 'react-bootstrap/Navbar';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
@@ -9,7 +9,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { BsDownload, BsFileEarmarkPlus, BsTrash } from "react-icons/bs";
+import { BsDownload, BsFileEarmarkPlus, BsTrash } from 'react-icons/bs';
 import Navigation from './Navigation';
 import Slide from './Slide';
 import { IMG_LIMIT } from '../utils/constants';
@@ -39,7 +39,7 @@ const File = () => {
             if (slides.length - 1 === currentSlide) clonedSlides.pop();
             else clonedSlides.splice(currentSlide, 1);
             setSlides(clonedSlides);
-            if (currentSlide > 0) setCurrentSlide(currentSlide - 1); 
+            if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
         }
 
         // clear viewports
@@ -67,7 +67,7 @@ const File = () => {
 
         slides.forEach((slide, index) => {
             const pptSlide = pptx.addNewSlide();
-            pptSlide.background = { color: "e2e3e5" };
+            pptSlide.background = { color: 'e2e3e' };
             const size = slide.length;
             slide.forEach((image, i) => {
                 const query = `#dicomImage${index}${i} canvas`;
@@ -78,7 +78,7 @@ const File = () => {
                 else {
                     coordinates = (i === 0) ? doubleImage1 : doubleImage2;
                 }
-                
+
                 pptSlide.addImage({ data, ...coordinates });
             });
         });
@@ -87,64 +87,67 @@ const File = () => {
 
     return (
         <div>
-            <Navbar bg="dark" variant="dark">
+            <Navbar bg='dark' variant='dark'>
                 <Container>
                     <Navbar.Brand>Image Viewer</Navbar.Brand>
                 </Container>
                 <Col sm={6}> </Col>
                 <Col sm={4}>
-                    <ButtonGroup className="me-4">
+                    <ButtonGroup className='me-4'>
                         <OverlayTrigger
                             placement={'bottom'}
                             overlay={
                                 <Tooltip> Add slide </Tooltip>
                             }
                         >
-                            <Button variant="secondary">
+                            <Button variant='secondary'>
                                 <BsFileEarmarkPlus onClick={addSlide} />
                             </Button>
                         </OverlayTrigger>
                     </ButtonGroup>
-                    <ButtonGroup className="me-4">
+                    <ButtonGroup className='me-4'>
                         <OverlayTrigger
                             placement={'bottom'}
                             overlay={
                                 <Tooltip> Delete slide </Tooltip>
                             }
                         >
-                            <Button variant="secondary">
+                            <Button variant='secondary'>
                                 <BsTrash onClick={deleteSlide} />
                             </Button>
                         </OverlayTrigger>
                     </ButtonGroup>
-                    <ButtonGroup className="me-4">
+                    <ButtonGroup className='me-4'>
                         <OverlayTrigger
                             placement={'bottom'}
                             overlay={
                                 <Tooltip> Download slides </Tooltip>
                             }
                         >
-                            <Button variant="secondary">
+                            <Button variant='secondary'>
                                 <BsDownload onClick={downloadSlides} />
                             </Button>
                         </OverlayTrigger>
                     </ButtonGroup>
                 </Col>
             </Navbar>
-            <header className="App-header">
-                <Container className="h-100">
-                    <Row className="h-100 align-items-center">
-                        <Col md={2} className="h-100">
-                            <Row className="h-100">
-                                <Navigation currentSlide={currentSlide} noOfSlides={slides.length} updateCurrent={(i) => setCurrentSlide(i)} />
+            <header className='App-header'>
+                <Container className='h-100'>
+                    <Row className='h-100 align-items-center'>
+                        <Col md={2} className='h-100'>
+                            <Row className='h-100'>
+                                <Navigation 
+                                    currentSlide={currentSlide} 
+                                    noOfSlides={slides.length} 
+                                    updateCurrent={(i) => setCurrentSlide(i)} />
                             </Row>
                         </Col>
-                        <Col md={10} className="h-100 align-items-center">
-                            <Slide 
-                                addSlide={addSlide} 
-                                getImageId={getImageId} 
-                                imageIds={slides} 
-                                currentSlide={currentSlide} 
+                        <Col md={10} className='h-100 align-items-center'>
+                            <Slide
+                                addSlide={addSlide}
+                                getImageId={getImageId}
+                                imageIds={slides}
+                                currentSlide={currentSlide}
                             />
                         </Col>
                     </Row>

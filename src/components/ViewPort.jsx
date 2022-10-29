@@ -46,10 +46,8 @@ const ViewPort = ({ imageIds, currentSlide}) => {
 
 
     return (
-        <div id="viewPort-wrapper">
-            {
-                renderDivs()
-            }
+        <div id='viewPort-wrapper'>
+            {renderDivs()}
         </div>
     );
 };

@@ -14,9 +14,9 @@ const ImageLimitModal = ({ addSlide, show, onHide, showModal, setReplaceImg }) =
             nodes.push(
                 <Form.Check
                         key={`checkimgId-${i + 1}`}
-                        type="radio"
+                        type='radio'
                         label={`Replace image ${i + 1}`}
-                        name="images"
+                        name='images'
                         value={i}
                         onClick={(e) => { setReplaceImg(e.target.value); showModal()}}
                     />
@@ -24,9 +24,9 @@ const ImageLimitModal = ({ addSlide, show, onHide, showModal, setReplaceImg }) =
         }
         nodes.push(
             <Form.Check
-            type="radio"
+            type='radio'
             label='Create a new slide'
-            name="images"
+            name='images'
             onClick={() => {
                 addSlide();
                 onHide();
@@ -36,7 +36,7 @@ const ImageLimitModal = ({ addSlide, show, onHide, showModal, setReplaceImg }) =
         return nodes;
     }
 
-    return (<Modal size="sm" show={show} onHide={onHide}>
+    return (<Modal size='sm' show={show} onHide={onHide}>
         <Modal.Header closeButton>
             <Modal.Title>{`${LIMIT_MAP[IMG_LIMIT]} images per slide`}</Modal.Title>
         </Modal.Header>

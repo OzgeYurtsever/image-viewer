@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
-import { BsPlus } from "react-icons/bs";
+import { BsPlus } from 'react-icons/bs';
 import ViewPort from './ViewPort';
 import ImageListModal from './ImageListModal';
 import ImageLimitModal from './ImageLimitModal';
@@ -17,7 +17,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
     const [replaceImg, setReplaceImg] = useState(null);
 
     const renderTooltip = (props) => (
-        <Tooltip id="button-tooltip" {...props}>
+        <Tooltip id='button-tooltip' {...props}>
             {`Add image`}
         </Tooltip>
     );
@@ -46,16 +46,16 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
     }
 
     return (
-        <div className="wrapper">
-            <div id="slide">
-                <div id="toolbar">
+        <div className='wrapper'>
+            <div id='slide'>
+                <div id='toolbar'>
                 <div style={{'width':'90%'}}> {`Slide ${currentSlide + 1}`}</div>
                     <OverlayTrigger
-                        placement="left"
+                        placement='left'
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
                     >
-                        <Button id="add-img-btn" variant="secondary" onClick={openModal}>
+                        <Button id='add-img-btn' variant='secondary' onClick={openModal}>
                             <BsPlus />
                         </Button>
                     </OverlayTrigger>
