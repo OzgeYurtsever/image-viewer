@@ -43,20 +43,16 @@ const File = () => {
         }
 
         // clear viewports
-        for (let i = temp; i < slides.length - 1; i++) {
-            const query1 = `#dicomImage${i}0 canvas`;
-            // const query1 = `#dicomImage${i}0`;
-
-            const canvas1 = document.querySelector(query1);
-    
-            const query2 = `#dicomImage${i}1 canvas`;
-            // const query2 = `#dicomImage${i}1`;
-
-            const canvas2 = document.querySelector(query2);
-    
-            canvas1?.remove();
-            canvas2?.remove();
-        }
+        // for (let i = temp; i < slides.length - 1; i++) {
+        //     const query1 = `#dicomImage${i}0 canvas`;
+        //     // const query1 = `#dicomImage${i}0`;
+        //     const canvas1 = document.querySelector(query1);
+        //     const query2 = `#dicomImage${i}1 canvas`;
+        //     // const query2 = `#dicomImage${i}1`;
+        //     const canvas2 = document.querySelector(query2);
+        //     canvas1?.remove();
+        //     canvas2?.remove();
+        // }
 
     }
 
