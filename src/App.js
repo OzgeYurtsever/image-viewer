@@ -1,10 +1,12 @@
-import './App.css';
+import CornerstoneInit from './components/CornerstoneInit';
 import File from './components/File';
+import './App.css';
 
 function App() {
   return (
     <div>
-      <File />
+    <CornerstoneInit />
+    <File />
     </div>
 
   );

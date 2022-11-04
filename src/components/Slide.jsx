@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from 'react-icons/bs';
-import ViewPort from './ViewPort';
+import Viewport from './NewViewport';
 import ImageListModal from './ImageListModal';
 import ImageLimitModal from './ImageLimitModal';
 
@@ -60,7 +60,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
                         </Button>
                     </OverlayTrigger>
                 </div>
-                <ViewPort imageIds={imageIds} currentSlide={currentSlide} />
+                <Viewport imageIds={imageIds} currentSlide={currentSlide} />
             </div>
             <ImageListModal 
                 show={showImgList}
