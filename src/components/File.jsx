@@ -32,7 +32,7 @@ const File = () => {
         for (let i = 0; i < slides[currentSlide].length; i++) {
             const imageId = slides[currentSlide][i];
             const id = slides[currentSlide][i].split('/').pop();
-            if (!divs[imageId]) newDivs[imageId] = (<div key={id} id={id} style={{'display': 'none'}}> </div>);
+            if (!divs[imageId]) newDivs[imageId] = (<div key={id} id={id} className="inner"> </div>);
         }
         setDivs({...divs, ...newDivs});
     }
@@ -83,24 +83,18 @@ const File = () => {
         const maxY = 404;
         const maxX = 720;
         const margin = 2;
-        const singleImage = { x: 0, y: 0, w: '100%', h: '100%' };
-        const doubleImage1 = { x: 0, y: 0, w: '50%', h: '100%' };
-        const doubleImage2 = { x: '51%', y: 0, w: '49%', h: '100%' };
+        const singleImage = { x: 0, y: 0, w: '90%', h: '90%' };
 
-        slides.forEach((slide, index) => {
-            const pptSlide = pptx.addNewSlide();
-            pptSlide.background = { color: 'e2e3e' };
-            const size = slide.length;
-            slide.forEach((image, i) => {
-                const query = `#dicomImage${index}${i} canvas`;
-                const canvas = document.querySelector(query);
+        const downloadables = Object.keys(downloadableIndeces);
+        downloadables.forEach((index, k) => {
+            slides[index].forEach((imageId, i) => {
+                const pptSlide = pptx.addNewSlide();
+                pptSlide.background = { color: 'e2e3e' };
+                const id = imageId.split('/').pop();
+                const div = document.getElementById(id);
+                const canvas = div.children[0];        
                 let data = canvas.toDataURL();
-                let coordinates = {};
-                if (size === 1) coordinates = singleImage;
-                else {
-                    coordinates = (i === 0) ? doubleImage1 : doubleImage2;
-                }
-
+                let coordinates = singleImage;
                 pptSlide.addImage({ data, ...coordinates });
             });
         });
@@ -153,7 +147,7 @@ const File = () => {
                     </ButtonGroup>
                 </Col>
             </Navbar>
-            <div id="downloadable-imgs">{Object.values(divs)}</div>
+            <div id="downloadable-imgs" className="outer">{Object.values(divs)}</div>
             <header className='App-header'>
                 <Container className='h-100'>
                     <Row className='h-100 align-items-center'>
