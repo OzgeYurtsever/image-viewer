@@ -35,11 +35,10 @@ const toolsArr = [
 
 const NewViewport = ({ imageIds, currentSlide }) => {
   return (
-    // imageIds[currentSlide].length > 0 && 
+    imageIds[currentSlide].length > 0 && 
       <CornerstoneViewport
         tools={toolsArr}
-        imageIds={ids}
-        // imageIds={imageIds[currentSlide]}
+        imageIds={imageIds[currentSlide]}
         style={{ minWidth: '100%', height: '512px', flex: '1' }}
     />
   )

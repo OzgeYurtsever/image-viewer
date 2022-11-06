@@ -25,11 +25,6 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     const handleDisplayFileDetails = async (e) => {
         const { REACT_APP_ID, REACT_APP_KEY } = process.env;
 
-        const S3_BUCKET ='YOUR_BUCKET_NAME';
-        const REGION ='YOUR_REGION_NAME';
-        const ACCESS_KEY ='YOUR_ACCESS_KEY';
-        const SECRET_ACCESS_KEY ='YOUR_SECRET_ACCESS_KEY';
-
         const config = {
             bucketName: 'dicom-store',
             dirName:'dicoms',
@@ -38,8 +33,6 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
             secretAccessKey: REACT_APP_KEY,
         }
 
-        // change the file name
-        // replace https with dicom web
         // handle multiple upload
 
         
@@ -50,9 +43,9 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
                 writable: true,
                 value: `${uid}-${name}`
             });
-            // const data = await uploadFile(e.target.files[0], config);
-            // console.log(data);
-            // setImageIds([data.location]);
+            const data = await uploadFile(e.target.files[0], config);
+            const imgId = data.location.replace('https://', 'dicomweb://');
+            setImageIds([imgId]);
         } catch (err) {
             console.error(err)
         }
