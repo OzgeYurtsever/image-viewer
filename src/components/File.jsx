@@ -18,6 +18,7 @@ const File = () => {
     const [slides, setSlides] = useState([[]]);
     const [downloadableIndeces, setDownloadableIndeces] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [divs, setDivs] = useState({});
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
@@ -25,14 +26,32 @@ const File = () => {
         setSlides(clonedSlides);
     }
 
+    const createDivs = () => {
+        const newDivs = {};
+        for (let i = 0; i < slides[currentSlide].length; i++) {
+            const id = slides[currentSlide][i].split('/').pop();
+            if (!divs[id]) newDivs[id] = (<div key={id} id={id} style={{'display': 'none'}}> </div>);
+        }
+        setDivs({...divs, ...newDivs});
+    }
+
+    const deleteDivs = () => {
+        const newDivs = { ...divs }; 
+        for (let i = 0; i < slides[currentSlide].length; i++) {
+            const id = slides[currentSlide][i].split('/').pop();
+            if (newDivs[id]) delete newDivs[id];
+        }
+        setDivs(newDivs);
+    }
+
     const getDownloadableIndeces = checked => {
         const newIndeces = {...downloadableIndeces};
         if (!checked && newIndeces[currentSlide]) {
             delete newIndeces[currentSlide];
-            // delete divs
+            deleteDivs();
         } else {
             newIndeces[currentSlide]= checked;
-            // create divs
+            createDivs();
             // enable cornerstone
         }
         setDownloadableIndeces(newIndeces)
@@ -55,18 +74,6 @@ const File = () => {
             setSlides(clonedSlides);
             if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
         }
-
-        // clear viewports
-        // for (let i = temp; i < slides.length - 1; i++) {
-        //     const query1 = `#dicomImage${i}0 canvas`;
-        //     // const query1 = `#dicomImage${i}0`;
-        //     const canvas1 = document.querySelector(query1);
-        //     const query2 = `#dicomImage${i}1 canvas`;
-        //     // const query2 = `#dicomImage${i}1`;
-        //     const canvas2 = document.querySelector(query2);
-        //     canvas1?.remove();
-        //     canvas2?.remove();
-        // }
 
     }
 
@@ -145,6 +152,7 @@ const File = () => {
                     </ButtonGroup>
                 </Col>
             </Navbar>
+            <div id="downloadable-imgs">{Object.values(divs)}</div>
             <header className='App-header'>
                 <Container className='h-100'>
                     <Row className='h-100 align-items-center'>
