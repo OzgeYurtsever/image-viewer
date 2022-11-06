@@ -6,12 +6,12 @@ import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from 'react-icons/bs';
 import Viewport from './NewViewport';
 import ImageListModal from './ImageListModal';
-import ImageLimitModal from './ImageLimitModal';
+// import ImageLimitModal from './ImageLimitModal';
 
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces, divs }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -62,7 +62,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIn
                         />
                     </div>}
                 </div>
-                <Viewport imageIds={imageIds} currentSlide={currentSlide} />
+                <Viewport imageIds={imageIds} currentSlide={currentSlide} divs={divs} />
             </div>
             <ImageListModal 
                 show={showImgList}
@@ -70,13 +70,13 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIn
                 setSelectedImage={(id) => setSelectedImage(id)}
                 selectImage={selectImage}
             />
-            <ImageLimitModal 
+            {/* <ImageLimitModal 
                 show={showLimitList}
                 onHide={() => setShowLimitList(false)}
                 showModal={() => setShowImgList(true)}
                 addSlide={addSlide}
                 setReplaceImg={setReplaceImg}
-            />
+            /> */}
         </div>
     );
 }

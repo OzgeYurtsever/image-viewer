@@ -27,31 +27,38 @@ const toolsArr = [
   { name: 'StackScrollMultiTouch', mode: 'active' },
 ];
 
-const NewViewport = ({ imageIds, currentSlide }) => {
-  useEffect(() => {
-    // const box = document.getElementById('viewPort-wrapper');
-    // const domRect = box.getBoundingClientRect();
-    // // const wrapperHeight = domRect.height;
-    // const wrapperWidth = domRect.width;
-    // // const height = imageIds[currentSlide].length ? wrapperHeight / imageIds[currentSlide].length : domRect.height;
-    // const width = imageIds[currentSlide].length ? wrapperWidth / imageIds[currentSlide].length : domRect.width;
+const NewViewport = ({ imageIds, currentSlide, divs }) => {
+  const insertImages = (csDivs) => {
+    const imageIds = Object.keys(csDivs);
+    const elements = [];
+    const promises = [];
+    const width = '468px';
+    const height= '512px';
+    for (let i = 0; i < imageIds.length; i++) {
+        const id = imageIds[i].split('/').pop();
+        const element = document.getElementById(id);
+        elements.push(element);
+        cornerstone.enable(element);
+        promises.push(cornerstone.loadImage(imageIds[i]));
+    }
+    console.log(' --> imageIds', imageIds);
+    Promise.all(promises).then((images) => { 
+        console.log(' --> inserting hidden immages');
+        images.forEach((image, i) => {
+            cornerstone.displayImage(elements[i], image);
+            elements[i].style.width = width;
+            elements[i].style.height = height;
+            cornerstone.resize(elements[i]);
+        });
+    }).catch(err => {
+        console.log(' --> inserting hidden immages');
+        console.error(err);
+    });
+  }
 
-    // const displayImages = async () => {
-        // for (let i = 0; i < imageIds[currentSlide].length; i++) {
-        //     const element = document.getElementById(`dicomImage${currentSlide}${i}`);
-        //     cornerstone.enable(element);
-            // const imageData = getExampleImage(imageIds[currentSlide][i]).promise;
-            // const image = await imageData;
-            // cornerstone.displayImage(element, image);
-            // element.style.width = width + 'px';
-            // cornerstone.resize(element);
-            
-    //     }
-    // }
-    
-    // displayImages().then(() => {
-    // }).catch((err) => console.error(err));
-}, [imageIds])
+  useEffect(() => {
+    if (Object.entries(divs).length > 0) insertImages(divs);
+  }, [divs]);
 
   return (
     imageIds[currentSlide].length > 0 && 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as cornerstone from 'cornerstone-core';
 import _ from 'lodash';
 import PptxGenJS from 'pptxgenjs';
 import Navbar from 'react-bootstrap/Navbar';
@@ -29,8 +30,9 @@ const File = () => {
     const createDivs = () => {
         const newDivs = {};
         for (let i = 0; i < slides[currentSlide].length; i++) {
+            const imageId = slides[currentSlide][i];
             const id = slides[currentSlide][i].split('/').pop();
-            if (!divs[id]) newDivs[id] = (<div key={id} id={id} style={{'display': 'none'}}> </div>);
+            if (!divs[imageId]) newDivs[imageId] = (<div key={id} id={id} style={{'display': 'none'}}> </div>);
         }
         setDivs({...divs, ...newDivs});
     }
@@ -38,8 +40,9 @@ const File = () => {
     const deleteDivs = () => {
         const newDivs = { ...divs }; 
         for (let i = 0; i < slides[currentSlide].length; i++) {
-            const id = slides[currentSlide][i].split('/').pop();
-            if (newDivs[id]) delete newDivs[id];
+            const imageId = slides[currentSlide][i];
+            const id = imageId.split('/').pop();
+            if (newDivs[imageId]) delete newDivs[imageId];
         }
         setDivs(newDivs);
     }
@@ -52,9 +55,8 @@ const File = () => {
         } else {
             newIndeces[currentSlide]= checked;
             createDivs();
-            // enable cornerstone
         }
-        setDownloadableIndeces(newIndeces)
+        setDownloadableIndeces(newIndeces);
     }
 
     const addSlide = () => {
@@ -74,7 +76,6 @@ const File = () => {
             setSlides(clonedSlides);
             if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
         }
-
     }
 
     const downloadSlides = () => {
@@ -171,6 +172,7 @@ const File = () => {
                                 imageIds={slides}
                                 currentSlide={currentSlide}
                                 getDownloadableIndeces={getDownloadableIndeces}
+                                divs={divs}
                             />
                         </Col>
                     </Row>
