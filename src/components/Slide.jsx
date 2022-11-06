@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from 'react-icons/bs';
@@ -35,16 +36,31 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
         <div className='wrapper'>
             <div id='slide'>
                 <div id='toolbar'>
-                <div style={{'width':'90%'}}> {`Slide ${currentSlide + 1}`}</div>
+                <div style={{'width':'65%'}}> {`Slide ${currentSlide + 1}`}</div>
                     <OverlayTrigger
                         placement='left'
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
                     >
-                        <Button id='add-img-btn' variant='secondary' onClick={openModal}>
+                        <Button 
+                            id='add-img-btn' 
+                            variant='secondary' 
+                            onClick={openModal} 
+                            style={{'display': imageIds[currentSlide].length > 0 ? 'none' : 'block'}}
+                        >
                             <BsPlus />
                         </Button>
                     </OverlayTrigger>
+                    <div id="downloadable">
+                        <label style={{"fontSize":"0.9rem"}}>Add to presentation</label>
+                        <input
+                            type='checkbox'
+                            label='Add to presentation'
+                            // name='downloadable'
+                            id='downloadable-check'
+                            onClick={() => console.log('check')}
+                        />
+                    </div>
                 </div>
                 <Viewport imageIds={imageIds} currentSlide={currentSlide} />
             </div>

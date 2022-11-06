@@ -34,6 +34,20 @@
     margin: 0rem 1rem;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
+}
+
+#downloadable {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    font-size: 1rem;
+    padding-bottom: 0.3rem;
+}
+
+#downloadable-check {
+    margin-left: 0.2rem
 }
 
 #add-img-btn {
