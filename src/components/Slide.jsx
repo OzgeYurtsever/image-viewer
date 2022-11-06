@@ -27,22 +27,8 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
         else setShowLimitList(true);
     }
 
-    const selectImage = () => {
-        if (selectedImage) {
-            const imgIds = [...imageIds[currentSlide]];
-            if (replaceImg !== null) {
-                const index = parseInt(replaceImg)
-                imgIds[index] = selectedImage; 
-                setShowLimitList(false);
-            }
-            else if (imgIds.length < IMG_LIMIT) {
-                imgIds.push(selectedImage)
-            };
-            getImageId(imgIds);
-            setSelectedImage('');
-            setReplaceImg(null);
-            setShowImgList(false);
-        }
+    const selectImage = (imgs) => {
+        getImageId(imgs);
     }
 
     return (

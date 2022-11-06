@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import CornerstoneViewport from "react-cornerstone-viewport";;
 
+// const ids = [
+//   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.11.dcm',
+//   'dicomweb://s3.amazonaws.com/lury/PTCTStudy/1.3.6.1.4.1.25403.52237031786.3872.20100510032220.12.dcm',
+// ];
+
+const ids = ['dicomweb://dicom-store.s3.us-east-2.amazonaws.com/dicoms/image-00004.dcm'];
+// 'dicomweb://dicom-store.s3.us-east-2.amazonaws.com/dicoms/image-00004.dcm'
 const toolsArr = [
   // Mouse
   {
@@ -27,13 +34,15 @@ const toolsArr = [
 ];
 
 const NewViewport = ({ imageIds, currentSlide }) => {
-  console.log(" ----> here in new viewport <----");
-  return (<CornerstoneViewport
-    tools={toolsArr}
-    // imageIds={imageIds}
-    imageIds={imageIds[currentSlide]}
-    style={{ minWidth: '100%', height: '512px', flex: '1' }}
-  />)
+  return (
+    // imageIds[currentSlide].length > 0 && 
+      <CornerstoneViewport
+        tools={toolsArr}
+        imageIds={ids}
+        // imageIds={imageIds[currentSlide]}
+        style={{ minWidth: '100%', height: '512px', flex: '1' }}
+    />
+  )
 };
 
 export default NewViewport;
