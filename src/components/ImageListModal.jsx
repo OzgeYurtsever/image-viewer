@@ -13,18 +13,17 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     const [imageIds, setImageIds] = useState([]);
     const elementRef = useRef();
 
-    const toBase64 = async (file) => {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
+    const renameFile = (file) => {
+        const uid = uuidv4(); 
+        const { name } = file;
+        Object.defineProperty(file, 'name', {
+            writable: true,
+            value: `${uid}-${name}`
         });
     }
 
     const handleDisplayFileDetails = async (e) => {
         const { REACT_APP_ID, REACT_APP_KEY } = process.env;
-
         const config = {
             bucketName: 'dicom-store',
             dirName:'dicoms',
@@ -32,20 +31,16 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
             accessKeyId: REACT_APP_ID,
             secretAccessKey: REACT_APP_KEY,
         }
-
-        // handle multiple upload
-
         
         try {
-            const uid = uuidv4(); 
-            const { name } = e.target.files[0];
-            Object.defineProperty(e.target.files[0], 'name', {
-                writable: true,
-                value: `${uid}-${name}`
+            const files = Object.values(e.target.files);
+            const promises = files.map((file, index) => {
+                renameFile(file);
+                return uploadFile(file, config)
             });
-            const data = await uploadFile(e.target.files[0], config);
-            const imgId = data.location.replace('https://', 'dicomweb://');
-            setImageIds([imgId]);
+            const data = await Promise.all(promises);
+            const imgIds = data.map((el) => el.location.replace('https://', 'dicomweb://'));
+            setImageIds(imgIds);
         } catch (err) {
             console.error(err)
         }
