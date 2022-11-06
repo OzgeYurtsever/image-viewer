@@ -8,13 +8,14 @@ import { Buffer } from "buffer";
 import { v4 as uuidv4 } from 'uuid';
 Buffer.from("anything", "base64");
 window.Buffer = window.Buffer || require("buffer").Buffer;
- 
+
+
 const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     const [imageIds, setImageIds] = useState([]);
     const elementRef = useRef();
 
-    const renameFile = (file) => {
-        const uid = uuidv4(); 
+
+    const renameFile = (file, uid) => {
         const { name } = file;
         Object.defineProperty(file, 'name', {
             writable: true,
@@ -22,24 +23,37 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
         });
     }
 
-    const handleDisplayFileDetails = async (e) => {
+    const generateConfig = (dirName) => {
         const { REACT_APP_ID, REACT_APP_KEY } = process.env;
         const config = {
             bucketName: 'dicom-store',
-            dirName:'dicoms',
+            // dirName:'dicoms',
             region: 'us-east-2',
             accessKeyId: REACT_APP_ID,
             secretAccessKey: REACT_APP_KEY,
         }
+        return { ...config, dirName };
+    }
+
+    const handleDisplayFileDetails = async (e) => {
         
         try {
             const files = Object.values(e.target.files);
-            const promises = files.map((file, index) => {
-                renameFile(file);
-                return uploadFile(file, config)
+            const uploadPromises = [];
+            // const base64Promises = [];
+            const configDicom = generateConfig('dicoms');
+            // const configPNG = generateConfig('img');
+
+            files.forEach((file, index) => {
+                const uid = uuidv4(); 
+                renameFile(file, uid);
+                uploadPromises.push(uploadFile(file, configDicom));
+                // base64Promises.push(toBase64(file));
             });
-            const data = await Promise.all(promises);
+            const data = await Promise.all(uploadPromises);
             const imgIds = data.map((el) => el.location.replace('https://', 'dicomweb://'));
+            // const base64Arr = await Promise.all(base64Promises);
+            // base64ToPNG(base64Arr[0]);
             setImageIds(imgIds);
         } catch (err) {
             console.error(err)
@@ -64,8 +78,8 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
             </form>
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={onHide} variant='secondary'>Cancel</Button>
-            <Button onClick={() => { selectImage(imageIds); onHide();}} variant='primary'>Done</Button>
+            <Button onClick={onHide} letiant='secondary'>Cancel</Button>
+            <Button onClick={() => { selectImage(imageIds); onHide();}} letiant='primary'>Done</Button>
         </Modal.Footer>
     </Modal>)
 }

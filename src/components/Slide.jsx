@@ -11,7 +11,7 @@ import ImageLimitModal from './ImageLimitModal';
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -37,7 +37,7 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
             <div id='slide'>
                 <div id='toolbar'>
                 <div style={{'width':'65%'}}> {`Slide ${currentSlide + 1}`}</div>
-                    <OverlayTrigger
+                    {imageIds[currentSlide].length === 0 && <OverlayTrigger
                         placement='left'
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
@@ -46,21 +46,21 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
                             id='add-img-btn' 
                             variant='secondary' 
                             onClick={openModal} 
-                            style={{'display': imageIds[currentSlide].length > 0 ? 'none' : 'block'}}
+                            // style={{'display': imageIds[currentSlide].length > 0 ? 'none' : 'block'}}
                         >
                             <BsPlus />
                         </Button>
-                    </OverlayTrigger>
-                    <div id="downloadable">
+                    </OverlayTrigger>}
+                    {imageIds[currentSlide].length > 0 && <div id="downloadable">
                         <label style={{"fontSize":"0.9rem"}}>Add to presentation</label>
                         <input
                             type='checkbox'
                             label='Add to presentation'
                             // name='downloadable'
                             id='downloadable-check'
-                            onClick={() => console.log('check')}
+                            onClick={(e) => getDownloadableIndeces(e.target.checked)}
                         />
-                    </div>
+                    </div>}
                 </div>
                 <Viewport imageIds={imageIds} currentSlide={currentSlide} />
             </div>

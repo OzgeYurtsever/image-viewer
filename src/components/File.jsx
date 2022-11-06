@@ -16,12 +16,26 @@ import { IMG_LIMIT } from '../utils/constants';
 
 const File = () => {
     const [slides, setSlides] = useState([[]]);
+    const [downloadableIndeces, setDownloadableIndeces] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
         clonedSlides[currentSlide] = ids;
         setSlides(clonedSlides);
+    }
+
+    const getDownloadableIndeces = checked => {
+        const newIndeces = {...downloadableIndeces};
+        if (!checked && newIndeces[currentSlide]) {
+            delete newIndeces[currentSlide];
+            // delete divs
+        } else {
+            newIndeces[currentSlide]= checked;
+            // create divs
+            // enable cornerstone
+        }
+        setDownloadableIndeces(newIndeces)
     }
 
     const addSlide = () => {
@@ -148,6 +162,7 @@ const File = () => {
                                 getImageId={getImageId}
                                 imageIds={slides}
                                 currentSlide={currentSlide}
+                                getDownloadableIndeces={getDownloadableIndeces}
                             />
                         </Col>
                     </Row>
