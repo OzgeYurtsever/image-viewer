@@ -5,10 +5,11 @@ import Button from 'react-bootstrap/Button';
 import CornerstoneViewport from "react-cornerstone-viewport";
 import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
+import { v4 as uuidv4 } from 'uuid';
 Buffer.from("anything", "base64");
 window.Buffer = window.Buffer || require("buffer").Buffer;
  
-const ImageListModal = ({ show, onHide, setSelectedImage, selectImage, currentSlide }) => {
+const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     const [imageIds, setImageIds] = useState([]);
     const elementRef = useRef();
 
@@ -36,11 +37,22 @@ const ImageListModal = ({ show, onHide, setSelectedImage, selectImage, currentSl
             accessKeyId: REACT_APP_ID,
             secretAccessKey: REACT_APP_KEY,
         }
+
+        // change the file name
+        // replace https with dicom web
+        // handle multiple upload
+
         
         try {
-            const data = await uploadFile(e.target.files[0], config);
-            console.log(data);
-            setImageIds([data.location]);
+            const uid = uuidv4(); 
+            const { name } = e.target.files[0];
+            Object.defineProperty(e.target.files[0], 'name', {
+                writable: true,
+                value: `${uid}-${name}`
+            });
+            // const data = await uploadFile(e.target.files[0], config);
+            // console.log(data);
+            // setImageIds([data.location]);
         } catch (err) {
             console.error(err)
         }
