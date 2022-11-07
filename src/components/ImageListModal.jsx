@@ -6,6 +6,8 @@ import CornerstoneViewport from "react-cornerstone-viewport";
 import { uploadFile } from 'react-s3';
 import { Buffer } from "buffer";
 import { v4 as uuidv4 } from 'uuid';
+import { keys } from '../utils/keys';
+
 Buffer.from("anything", "base64");
 window.Buffer = window.Buffer || require("buffer").Buffer;
 
@@ -25,12 +27,13 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
 
     const generateConfig = (dirName) => {
         const { REACT_APP_ACCESS_ID, REACT_APP_ACCESS_KEY } = process.env;
+        const { AWS_ACCESS_ID, AWS_ACCESS_KEY } = keys;
         const config = {
             bucketName: 'dicom-store',
             // dirName:'dicoms',
             region: 'us-east-2',
-            accessKeyId: REACT_APP_ACCESS_ID,
-            secretAccessKey: REACT_APP_ACCESS_KEY,
+            accessKeyId: REACT_APP_ACCESS_ID || AWS_ACCESS_ID,
+            secretAccessKey: REACT_APP_ACCESS_KEY || AWS_ACCESS_KEY,
         }
         return { ...config, dirName };
     }
