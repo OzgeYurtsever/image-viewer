@@ -24,13 +24,13 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     }
 
     const generateConfig = (dirName) => {
-        const { REACT_APP_ID, REACT_APP_KEY } = process.env;
+        const { REACT_APP_ACCESS_ID, REACT_APP_ACCESS_KEY } = process.env;
         const config = {
             bucketName: 'dicom-store',
             // dirName:'dicoms',
             region: 'us-east-2',
-            accessKeyId: REACT_APP_ID,
-            secretAccessKey: REACT_APP_KEY,
+            accessKeyId: REACT_APP_ACCESS_ID,
+            secretAccessKey: REACT_APP_ACCESS_KEY,
         }
         return { ...config, dirName };
     }
