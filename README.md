@@ -6,6 +6,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Before running npm commands below or docker build, please run:
+
+**npm install -g npm-install-peers
+
+**npm ci --legacy-peer-deps
+
 ### `npm start`
 
 Runs the app in the development mode.\
