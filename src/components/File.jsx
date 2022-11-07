@@ -10,6 +10,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 import { BsDownload, BsFileEarmarkPlus, BsTrash } from 'react-icons/bs';
 import Navigation from './Navigation';
 import Slide from './Slide';
@@ -20,6 +21,7 @@ const File = () => {
     const [downloadableIndeces, setDownloadableIndeces] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
     const [divs, setDivs] = useState({});
+    const [showAlert, setShowAlert] = useState(false)
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
@@ -79,27 +81,31 @@ const File = () => {
     }
 
     const downloadSlides = () => {
-        let pptx = new PptxGenJS();
-        const maxY = 404;
-        const maxX = 720;
-        const margin = 2;
-        const singleImage = { x: 0, y: 0, w: '90%', h: '90%' };
-
         const downloadables = Object.keys(downloadableIndeces);
-        downloadables.forEach((index, k) => {
-            slides[index].forEach((imageId, i) => {
-                const pptSlide = pptx.addNewSlide();
-                pptSlide.background = { color: 'e2e3e' };
-                const id = imageId.split('/').pop();
-                const div = document.getElementById(id);
-                const canvas = div.children[0];        
-                let data = canvas.toDataURL();
-                let coordinates = singleImage;
-                pptSlide.addImage({ data, ...coordinates });
+        if (downloadables.length === 0) {
+            setShowAlert(true);
+        } else {        
+            let pptx = new PptxGenJS();
+            const maxY = 404;
+            const maxX = 720;
+            const margin = 2;
+            const singleImage = { x: 0, y: 0, w: '90%', h: '90%' };
+            downloadables.forEach((index, k) => {
+                slides[index].forEach((imageId, i) => {
+                    const pptSlide = pptx.addNewSlide();
+                    pptSlide.background = { color: 'e2e3e' };
+                    const id = imageId.split('/').pop();
+                    const div = document.getElementById(id);
+                    const canvas = div.children[0];        
+                    let data = canvas.toDataURL();
+                    let coordinates = singleImage;
+                    pptSlide.addImage({ data, ...coordinates });
+                });
             });
-        });
-        pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
+            pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
+        }
     }
+
 
     return (
         <div>
@@ -151,6 +157,9 @@ const File = () => {
             <header className='App-header'>
                 <Container className='h-100'>
                     <Row className='h-100 align-items-center'>
+                        <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                            Please upload images to slides and select the slides you want to download
+                         </Alert>
                         <Col md={2} className='h-100'>
                             <Row className='h-100'>
                                 <Navigation 
@@ -168,6 +177,7 @@ const File = () => {
                                 getDownloadableIndeces={getDownloadableIndeces}
                                 divs={divs}
                             />
+                            
                         </Col>
                     </Row>
                 </Container>

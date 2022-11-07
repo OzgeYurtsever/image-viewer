@@ -61,7 +61,7 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
 
     };
 
-    return (<Modal size='lg' show={show} onHide={onHide}>
+    return (<Modal size='sm' show={show} onHide={onHide}>
         <Modal.Header closeButton>
             <Modal.Title>Available Images</Modal.Title>
         </Modal.Header>
