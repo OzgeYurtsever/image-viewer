@@ -2,15 +2,15 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
-
-## Before running npm commands below or docker build, please run:
+## Before running npm scripts below or docker build, please run:
 
 **npm install -g npm-install-peers**
 
 **npm ci --legacy-peer-deps**
+
+## Available Scripts
+
+In the project directory, you can run:
 
 ### `npm start`
 
