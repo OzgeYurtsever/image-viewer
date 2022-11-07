@@ -62,6 +62,7 @@ const File = () => {
     }
 
     const addSlide = () => {
+        shiftDownloadableOnInsert();
         const clonedSlides = _.cloneDeep(slides);
         if (slides.length - 1 === currentSlide) clonedSlides.push([]);
         else clonedSlides.splice(currentSlide + 1, 0, []);
@@ -69,8 +70,29 @@ const File = () => {
         setCurrentSlide(currentSlide + 1);
     }
 
+    const shiftDownloadableOnDelete = () => {
+        const newIndeces = {};
+        const keys = Object.keys(downloadableIndeces);
+        keys.forEach((index) => {
+            if (index < currentSlide) newIndeces[index] = true;
+            else if (index > currentSlide) newIndeces[index - 1] = true;         
+        setDownloadableIndeces(newIndeces);
+        });
+    }
+
+    const shiftDownloadableOnInsert = () => {
+        const newIndeces = {};
+        const keys = Object.keys(downloadableIndeces);
+        keys.forEach((index) => {
+            const intIndex= parseInt(index);
+            if (intIndex <= currentSlide) newIndeces[intIndex] = true;
+            else if (intIndex > currentSlide) newIndeces[intIndex + 1] = true;         
+        });
+        setDownloadableIndeces(newIndeces);
+    }
+
     const deleteSlide = () => {
-        const temp = currentSlide;
+        shiftDownloadableOnDelete();
         if (slides.length > 1) {
             const clonedSlides = _.cloneDeep(slides);
             if (slides.length - 1 === currentSlide) clonedSlides.pop();
@@ -176,6 +198,7 @@ const File = () => {
                                 currentSlide={currentSlide}
                                 getDownloadableIndeces={getDownloadableIndeces}
                                 divs={divs}
+                                downloadableIndeces={downloadableIndeces}
                             />
                             
                         </Col>
