@@ -14,6 +14,7 @@ window.Buffer = window.Buffer || require("buffer").Buffer;
 
 const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
     const [imageIds, setImageIds] = useState([]);
+    const [files, setFiles] = useState([]);
     const elementRef = useRef();
 
 
@@ -38,15 +39,12 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
         return { ...config, dirName };
     }
 
-    const handleDisplayFileDetails = async (e) => {
-        
+    const uploadFiles = async (e) => {
         try {
-            const files = Object.values(e.target.files);
             const uploadPromises = [];
             // const base64Promises = [];
             const configDicom = generateConfig('dicoms');
             // const configPNG = generateConfig('img');
-
             files.forEach((file, index) => {
                 const uid = uuidv4(); 
                 renameFile(file, uid);
@@ -58,6 +56,17 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
             // const base64Arr = await Promise.all(base64Promises);
             // base64ToPNG(base64Arr[0]);
             setImageIds(imgIds);
+            selectImage(imgIds); 
+        } catch (err) {
+            console.error(err)
+        }
+        onHide();
+    }
+    const handleDisplayFileDetails = async (e) => {
+        
+        try {
+            const uploadedFiles = Object.values(e.target.files);
+            setFiles(uploadedFiles);
         } catch (err) {
             console.error(err)
         }
@@ -81,7 +90,7 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
         </Modal.Body>
         <Modal.Footer>
             <Button onClick={onHide} letiant='secondary'>Cancel</Button>
-            <Button onClick={() => { selectImage(imageIds); onHide();}} letiant='primary'>Done</Button>
+            <Button onClick={uploadFiles} letiant='primary'>Done</Button>
         </Modal.Footer>
     </Modal>)
 }
