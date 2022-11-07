@@ -74,7 +74,6 @@ const ImageListModal = ({ show, onHide, selectImage, currentSlide }) => {
                     type='file'
                     name='myFile'
                     multiple={true}
-                    onClick={() => console.log(" onClick")}
                     onChange={(e) => handleDisplayFileDetails(e)}
 
                 />

@@ -41,9 +41,7 @@ const NewViewport = ({ imageIds, currentSlide, divs }) => {
         cornerstone.enable(element);
         promises.push(cornerstone.loadImage(imageIds[i]));
     }
-    console.log(' --> imageIds', imageIds);
     Promise.all(promises).then((images) => { 
-        console.log(' --> inserting hidden immages');
         images.forEach((image, i) => {
             cornerstone.displayImage(elements[i], image);
             elements[i].style.width = width;
@@ -51,7 +49,6 @@ const NewViewport = ({ imageIds, currentSlide, divs }) => {
             cornerstone.resize(elements[i]);
         });
     }).catch(err => {
-        console.log(' --> inserting hidden immages');
         console.error(err);
     });
   }

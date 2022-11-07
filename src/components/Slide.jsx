@@ -11,7 +11,7 @@ import ImageListModal from './ImageListModal';
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces, divs }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces, divs, downloadableIndeces }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -56,9 +56,10 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIn
                         <input
                             type='checkbox'
                             label='Add to presentation'
+                            checked={downloadableIndeces[currentSlide]}
                             // name='downloadable'
                             id='downloadable-check'
-                            onClick={(e) => getDownloadableIndeces(e.target.checked)}
+                            onChange={(e) => getDownloadableIndeces(e.target.checked)}
                         />
                     </div>}
                 </div>
