@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Tooltip from 'react-bootstrap/Tooltip'
 import { BsPlus } from 'react-icons/bs';
-import ViewPort from './ViewPort';
+import Viewport from './NewViewport';
 import ImageListModal from './ImageListModal';
-import ImageLimitModal from './ImageLimitModal';
+// import ImageLimitModal from './ImageLimitModal';
 
 import { IMG_LIMIT } from '../utils/constants';
 import './style.css';
 
-const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
+const Slide = ({ addSlide, getImageId, imageIds, currentSlide, getDownloadableIndeces, divs }) => {
     const [showImgList, setShowImgList] = useState(false);
     const [showLimitList, setShowLimitList] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
@@ -27,40 +28,41 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
         else setShowLimitList(true);
     }
 
-    const selectImage = () => {
-        if (selectedImage) {
-            const imgIds = [...imageIds[currentSlide]];
-            if (replaceImg !== null) {
-                const index = parseInt(replaceImg)
-                imgIds[index] = selectedImage; 
-                setShowLimitList(false);
-            }
-            else if (imgIds.length < IMG_LIMIT) {
-                imgIds.push(selectedImage)
-            };
-            getImageId(imgIds);
-            setSelectedImage('');
-            setReplaceImg(null);
-            setShowImgList(false);
-        }
+    const selectImage = (imgs) => {
+        getImageId(imgs);
     }
 
     return (
         <div className='wrapper'>
             <div id='slide'>
                 <div id='toolbar'>
-                <div style={{'width':'90%'}}> {`Slide ${currentSlide + 1}`}</div>
-                    <OverlayTrigger
+                <div style={{'width':'65%'}}> {`Slide ${currentSlide + 1}`}</div>
+                    {imageIds[currentSlide].length === 0 && <OverlayTrigger
                         placement='left'
                         delay={{ showImgList: 250, hide: 400 }}
                         overlay={renderTooltip}
                     >
-                        <Button id='add-img-btn' variant='secondary' onClick={openModal}>
+                        <Button 
+                            id='add-img-btn' 
+                            variant='secondary' 
+                            onClick={openModal} 
+                            // style={{'display': imageIds[currentSlide].length > 0 ? 'none' : 'block'}}
+                        >
                             <BsPlus />
                         </Button>
-                    </OverlayTrigger>
+                    </OverlayTrigger>}
+                    {imageIds[currentSlide].length > 0 && <div id="downloadable">
+                        <label style={{"fontSize":"0.9rem"}}>Add to presentation</label>
+                        <input
+                            type='checkbox'
+                            label='Add to presentation'
+                            // name='downloadable'
+                            id='downloadable-check'
+                            onClick={(e) => getDownloadableIndeces(e.target.checked)}
+                        />
+                    </div>}
                 </div>
-                <ViewPort imageIds={imageIds} currentSlide={currentSlide} />
+                <Viewport imageIds={imageIds} currentSlide={currentSlide} divs={divs} />
             </div>
             <ImageListModal 
                 show={showImgList}
@@ -68,13 +70,13 @@ const Slide = ({ addSlide, getImageId, imageIds, currentSlide }) => {
                 setSelectedImage={(id) => setSelectedImage(id)}
                 selectImage={selectImage}
             />
-            <ImageLimitModal 
+            {/* <ImageLimitModal 
                 show={showLimitList}
                 onHide={() => setShowLimitList(false)}
                 showModal={() => setShowImgList(true)}
                 addSlide={addSlide}
                 setReplaceImg={setReplaceImg}
-            />
+            /> */}
         </div>
     );
 }

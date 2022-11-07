@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import * as cornerstone from 'cornerstone-core';
 import _ from 'lodash';
 import PptxGenJS from 'pptxgenjs';
 import Navbar from 'react-bootstrap/Navbar';
@@ -9,6 +10,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Alert from 'react-bootstrap/Alert';
 import { BsDownload, BsFileEarmarkPlus, BsTrash } from 'react-icons/bs';
 import Navigation from './Navigation';
 import Slide from './Slide';
@@ -16,12 +18,47 @@ import { IMG_LIMIT } from '../utils/constants';
 
 const File = () => {
     const [slides, setSlides] = useState([[]]);
+    const [downloadableIndeces, setDownloadableIndeces] = useState({});
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [divs, setDivs] = useState({});
+    const [showAlert, setShowAlert] = useState(false)
 
     const getImageId = (ids) => {
         const clonedSlides = _.cloneDeep(slides);
         clonedSlides[currentSlide] = ids;
         setSlides(clonedSlides);
+    }
+
+    const createDivs = () => {
+        const newDivs = {};
+        for (let i = 0; i < slides[currentSlide].length; i++) {
+            const imageId = slides[currentSlide][i];
+            const id = slides[currentSlide][i].split('/').pop();
+            if (!divs[imageId]) newDivs[imageId] = (<div key={id} id={id} className="inner"> </div>);
+        }
+        setDivs({...divs, ...newDivs});
+    }
+
+    const deleteDivs = () => {
+        const newDivs = { ...divs }; 
+        for (let i = 0; i < slides[currentSlide].length; i++) {
+            const imageId = slides[currentSlide][i];
+            const id = imageId.split('/').pop();
+            if (newDivs[imageId]) delete newDivs[imageId];
+        }
+        setDivs(newDivs);
+    }
+
+    const getDownloadableIndeces = checked => {
+        const newIndeces = {...downloadableIndeces};
+        if (!checked && newIndeces[currentSlide]) {
+            delete newIndeces[currentSlide];
+            deleteDivs();
+        } else {
+            newIndeces[currentSlide]= checked;
+            createDivs();
+        }
+        setDownloadableIndeces(newIndeces);
     }
 
     const addSlide = () => {
@@ -41,49 +78,34 @@ const File = () => {
             setSlides(clonedSlides);
             if (currentSlide > 0) setCurrentSlide(currentSlide - 1);
         }
-
-        // clear viewports
-        // for (let i = temp; i < slides.length - 1; i++) {
-        //     const query1 = `#dicomImage${i}0 canvas`;
-        //     // const query1 = `#dicomImage${i}0`;
-        //     const canvas1 = document.querySelector(query1);
-        //     const query2 = `#dicomImage${i}1 canvas`;
-        //     // const query2 = `#dicomImage${i}1`;
-        //     const canvas2 = document.querySelector(query2);
-        //     canvas1?.remove();
-        //     canvas2?.remove();
-        // }
-
     }
 
     const downloadSlides = () => {
-        let pptx = new PptxGenJS();
-        const maxY = 404;
-        const maxX = 720;
-        const margin = 2;
-        const singleImage = { x: 0, y: 0, w: '100%', h: '100%' };
-        const doubleImage1 = { x: 0, y: 0, w: '50%', h: '100%' };
-        const doubleImage2 = { x: '51%', y: 0, w: '49%', h: '100%' };
-
-        slides.forEach((slide, index) => {
-            const pptSlide = pptx.addNewSlide();
-            pptSlide.background = { color: 'e2e3e' };
-            const size = slide.length;
-            slide.forEach((image, i) => {
-                const query = `#dicomImage${index}${i} canvas`;
-                const canvas = document.querySelector(query);
-                let data = canvas.toDataURL();
-                let coordinates = {};
-                if (size === 1) coordinates = singleImage;
-                else {
-                    coordinates = (i === 0) ? doubleImage1 : doubleImage2;
-                }
-
-                pptSlide.addImage({ data, ...coordinates });
+        const downloadables = Object.keys(downloadableIndeces);
+        if (downloadables.length === 0) {
+            setShowAlert(true);
+        } else {        
+            let pptx = new PptxGenJS();
+            const maxY = 404;
+            const maxX = 720;
+            const margin = 2;
+            const singleImage = { x: 0, y: 0, w: '90%', h: '90%' };
+            downloadables.forEach((index, k) => {
+                slides[index].forEach((imageId, i) => {
+                    const pptSlide = pptx.addNewSlide();
+                    pptSlide.background = { color: 'e2e3e' };
+                    const id = imageId.split('/').pop();
+                    const div = document.getElementById(id);
+                    const canvas = div.children[0];        
+                    let data = canvas.toDataURL();
+                    let coordinates = singleImage;
+                    pptSlide.addImage({ data, ...coordinates });
+                });
             });
-        });
-        pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
+            pptx.writeFile({ fileName: 'Image-viewer-slides.pptx' });
+        }
     }
+
 
     return (
         <div>
@@ -131,9 +153,13 @@ const File = () => {
                     </ButtonGroup>
                 </Col>
             </Navbar>
+            <div id="downloadable-imgs" className="outer">{Object.values(divs)}</div>
             <header className='App-header'>
                 <Container className='h-100'>
                     <Row className='h-100 align-items-center'>
+                        <Alert show={showAlert} variant="danger" onClose={() => setShowAlert(false)} dismissible>
+                            Please upload images to slides and select the slides you want to download
+                         </Alert>
                         <Col md={2} className='h-100'>
                             <Row className='h-100'>
                                 <Navigation 
@@ -148,7 +174,10 @@ const File = () => {
                                 getImageId={getImageId}
                                 imageIds={slides}
                                 currentSlide={currentSlide}
+                                getDownloadableIndeces={getDownloadableIndeces}
+                                divs={divs}
                             />
+                            
                         </Col>
                     </Row>
                 </Container>
